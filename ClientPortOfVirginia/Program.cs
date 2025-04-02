@@ -17,7 +17,7 @@ await host.StartAsync();
 IClusterClient client = host.Services.GetRequiredService<IClusterClient>();
 
 ITrips friend = client.GetGrain<ITrips>(0);
-string response = await friend.ArrivedAtPort("Chassis arrived at Port of Virginia!");
+string response = await friend.ArrivedAtPort("#A98JJ08 chassis arrived at Port of Virginia");
 
 Console.WriteLine($"""
     {response}

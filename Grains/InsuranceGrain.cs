@@ -9,29 +9,15 @@ public class InsuranceGrain : Grain, IInsurance
 
     public InsuranceGrain(ILogger<TripsGrain> logger) => _logger = logger;
 
-    public ValueTask<string> VerificationFailed(string message)
+    public ValueTask<string> ScanIdToVerify(string chassisId)
     {
         _logger.LogInformation("""
-            "{message}" saving to failure to database
+            "{message}" saving scan attempt to insurance database
             """,
-            message);
+            chassisId);
 
         return ValueTask.FromResult($"""
-
-            Insurance scan FAILURE.
-            """);
-    }
-
-    public ValueTask<string> VerificationSuccess(string message)
-    {
-        _logger.LogInformation("""
-            "{message}" saving to insurance database
-            """,
-            message);
-
-        return ValueTask.FromResult($"""
-
-            Insurance scan SUCCESS.
+            SUCCESS {chassisId} Insurance Verification code: 48K03-AA.
             """);
     }
 }

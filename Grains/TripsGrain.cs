@@ -13,18 +13,15 @@ public class TripsGrain : Grain, ITrips
     async ValueTask<string> ITrips.ArrivedAtPort(string message)
     {
         _logger.LogInformation("""
-            "{message}" saving arrival event to database
+            "{message}" | Saving arrival event to database
             """,
             message);
 
         _logger.LogInformation("Scanning insurance data");
-        // Notify the InsuranceGrain about the arrival
         var insuranceGrain = GrainFactory.GetGrain<IInsurance>(this.GetPrimaryKeyLong());
-        // Save the verification result and await it
-        string verificationResult = await insuranceGrain.VerificationSuccess($"Trip arrived at port: {message}");
+        string verificationResult = await insuranceGrain.ScanIdToVerify(message[..8]);
 
         return $"""
-
             Arrival event UUID is 6930-V30D-4FL8-K8J3. Insurance verification result: {verificationResult}
             """;
     }
